@@ -1,78 +1,59 @@
 package com.example.handesaimandroidcoursecompletionproject;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
-public class DataBase extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "Yes";
-    private static final int DATABASE_VERSION = 1;
-    private static Context context;
-    static private Boolean flag;//singleton
-    static private DataBase dataBase;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-    public static DataBase getInstance() {
-        if(flag) return dataBase;
-        dataBase = new DataBase(context);
-        return dataBase;
+@Database(entities = {Item.class, UserWithItems.class},version = 1,exportSchema = false)
+public abstract class DataBase extends RoomDatabase {
+
+    public abstract ItemDao ItemDao();
+    public abstract UserDao UserDao();
+
+
+
+    private static volatile Database INSTANCE;
+    private static final int NUMBER_OF_THREADS = 4;
+    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            // If you want to keep data through app restarts,
+            // comment out the following block
+/*            databaseWriteExecutor.execute(() -> {
+                // Populate the database in the background.
+                // If you want to start with more words, just add them.
+                ItemDao dao = INSTANCE.itemDao();
+                dao.deleteAll();
+                *//*Word word = new Word("Hello");
+                dao.insert(word);
+                word = new Word("World");
+                dao.insert(word);*//*
+            });*/
+        }
+    };
+
+    static DataBase getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (DataBase.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = (Database) Room.databaseBuilder(context.getApplicationContext(),
+                            DataBase.class, "word_database")
+                            .addCallback(sRoomDatabaseCallback)
+                            .build();
+                }
+            }
+        }
+        return (DataBase) INSTANCE;
     }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE Items ("
-                +"ItemPrimaryKey Integer PRIMARY KEY AUTOINCREMENT,"
-                +"number TEXT,"
-                +"name TEXT,"
-                +"price INTEGER"
-                +")");
-        db.execSQL("CREATE TABLE Users("
-                +"UserPrimeryKey Integer PRIMARY KEY AUTOINCREMENT,"
-                +"name TEXT,"
-                +"id TEXT,"
-                +"ForeginKeyShoppingList INTEGER,"
-                +"priceTotal INTEGER"
-                +")");
-        db.execSQL("CREATE TABLE ShoppingLists("
-                +"ShoppingListPrimeryKey PRIMARY KEY AUTOINCREMENT,"
-                +"UserPrimeryKey Integer,"
-                +"ItemPrimaryKey Integer,"
-                +"FOREIGN KEY(UserPrimeryKey) REFERENCES Users(UserPrimaryKey) on delete cascade,"
-                +"FOREIGN KEY(ItemPrimeryKey) REFERENCES Items(ItemPrimaryKey) on delete cascade"
-                +")");
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + "ItemPrimaryKey");
-        db.execSQL("DROP TABLE IF EXISTS " + "UserPrimeryKey");
-        db.execSQL("DROP TABLE IF EXISTS " +"ShoppingListPrimeryKey");
-        onCreate(db);
-
-    }
-
-    public DataBase(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
-        flag = true;
-    }
-
-    static public Boolean createUser(String name, String id, ArrayList<Item> shoppingList){
-
-    }
-    static public Boolean updateUser(String name, ArrayList<Item> shoppingList){
-
-    }
-    static public User getUser(String name, String id){
-
-    }
-    static public Boolean createItem(String number, String name, int price){
-
-    }
-    static public ArrayList<Item> getItems(){
-
-    }
-
 
 }

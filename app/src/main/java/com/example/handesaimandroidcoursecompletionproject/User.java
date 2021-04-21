@@ -1,30 +1,54 @@
 package com.example.handesaimandroidcoursecompletionproject;
 
-import java.util.ArrayList;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+import java.util.List;
+
+@Entity
 public class User {
-    private String name;
+    @PrimaryKey
+    private String userName;
+    @ColumnInfo(name = "User id")
     private String id;
-    private ArrayList<Item> shoppingList;//Should totaly be a map of Item,Integer to count items in the shoppingList, but whatever.
+    @ColumnInfo(name = "User Price Total")
     private int priceTotal;
+    @Ignore
+    private List<Item> shoppingList;//This is added in the repo
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean add(Item item) {
-        return shoppingList.add(item);
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setId(String id) {
         this.id = id;
     }
 
-    public void setShoppingList(ArrayList<Item> shoppingList) {
-        this.shoppingList = shoppingList;
-    }
-
     public void setPriceTotal(int priceTotal) {
         this.priceTotal = priceTotal;
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public int getPriceTotal() {
+        return priceTotal;
+    }
+
+    public List<Item> getShoppingList() {
+        return shoppingList;
+    }
+
+    public void setShoppingList(List<Item> shoppingList) {
+        this.shoppingList = shoppingList;
+    }
+
+
 }
