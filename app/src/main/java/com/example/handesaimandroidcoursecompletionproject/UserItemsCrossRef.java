@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(primaryKeys = {"userName","itemID"})
-public class UserItemsJoined {
+public class UserItemsCrossRef {
     @NonNull
     public String userName;
     @NonNull

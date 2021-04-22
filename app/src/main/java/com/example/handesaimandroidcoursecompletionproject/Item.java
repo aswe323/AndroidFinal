@@ -22,7 +22,11 @@ public class Item {
     @ColumnInfo(name = "Quantity")
     private int quantity;
 
-    public Item() {
+
+    public Item(@NonNull String itemID, String itemName, int price) {
+        this.itemID = itemID;
+        this.itemName = itemName;
+        this.price = price;
     }
 
     public void setItemID(String itemID) {

@@ -1,5 +1,6 @@
 package com.example.handesaimandroidcoursecompletionproject;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -10,13 +11,18 @@ import java.util.List;
 @Entity
 public class User {
     @PrimaryKey
+    @NonNull
     private String userName;
     @ColumnInfo(name = "User id")
     private String id;
     @ColumnInfo(name = "User Price Total")
     private int priceTotal;
-    @Ignore
-    private List<Item> shoppingList;//This is added in the repo
+
+    public User(@NonNull String userName, String id, int priceTotal) {
+        this.userName = userName;
+        this.id = id;
+        this.priceTotal = priceTotal;
+    }
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -40,14 +46,6 @@ public class User {
 
     public int getPriceTotal() {
         return priceTotal;
-    }
-
-    public List<Item> getShoppingList() {
-        return shoppingList;
-    }
-
-    public void setShoppingList(List<Item> shoppingList) {
-        this.shoppingList = shoppingList;
     }
 
 

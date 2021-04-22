@@ -1,5 +1,7 @@
 package com.example.handesaimandroidcoursecompletionproject;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -18,7 +20,7 @@ public interface ItemDao{
 
     //Read
     @Query("SELECT * FROM Item")
-    List<Item> getAll();
+    LiveData<List<Item>> getAll();
 
     //Update (Redundant for the use case of the project)
     @Update

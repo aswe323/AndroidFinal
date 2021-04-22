@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Item.class, UserWithItems.class},version = 1,exportSchema = false)
+@Database(entities = {Item.class,  User.class, UserItemsCrossRef.class},version = 1,exportSchema = false)
 public abstract class DataBase extends RoomDatabase {
 
     public abstract ItemDao ItemDao();
@@ -47,7 +47,7 @@ public abstract class DataBase extends RoomDatabase {
             synchronized (DataBase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = (Database) Room.databaseBuilder(context.getApplicationContext(),
-                            DataBase.class, "word_database")
+                            DataBase.class, "RoomDataBase")
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }

@@ -7,11 +7,11 @@ import androidx.room.Relation;
 import java.util.List;
 
 public class UserWithItems {
-    @Embedded public UserItemsJoined userItemsJoined;
+    @Embedded public User user;
     @Relation(
             parentColumn = "userName",
             entityColumn = "itemID",
-            associateBy = @Junction(UserItemsJoined.class)
+            associateBy = @Junction(UserItemsCrossRef.class)
     )
     //This is will not scale optimally
     public List<Item> shoppingList;
