@@ -6,13 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/autheniticateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginStart="160dp"
+        android:layout_marginBottom="364dp"
+        android:text="אמת פרטים"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/identificationNumber"
+        android:layout_width="150dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="80dp"
+        android:text="תעודת זהות"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/autheniticateButton" />
+
+    <TextView
+        android:id="@+id/studentName"
+        android:layout_width="150dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="236dp"
+        android:layout_marginTop="80dp"
+        android:text="שם הסטודנט"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/autheniticateButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

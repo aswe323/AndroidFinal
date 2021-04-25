@@ -10,7 +10,4 @@ public class UserItemsCrossRef {
     public String userName;
     @NonNull
     public String itemID;
-
-
-
 }
