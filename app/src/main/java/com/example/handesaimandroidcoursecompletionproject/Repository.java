@@ -13,10 +13,10 @@ public class Repository {
     public ItemDao itemDao;
     private LiveData<List<User>> userList;
     private LiveData<List<Item>> itemList;
-    private boolean flag = false;
-    private Repository repository;
+    static private boolean flag = false;
+    static private Repository repository;
 
-    Repository(Application application) {
+    private Repository(Application application) {
         this.flag = true;
         DataBase database = DataBase.getDatabase(application);
         this.userDao = database.UserDao();
@@ -35,7 +35,7 @@ public class Repository {
         itemDao.insert(new Item("005","pita",7));
     }
 
-    public Repository getInstance(Application application){
+    static public Repository getInstance(Application application){
         if(flag) return repository;
         repository = new Repository(application);
         return repository;

@@ -6,33 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/stundentId"
+        android:layout_width="140dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="72dp"
+        android:ems="10"
+        android:hint="תעודת זהות"
+        android:inputType="numberPassword"
+        android:text="ID"
+        app:layout_constraintStart_toEndOf="@+id/studentName"
+        app:layout_constraintTop_toBottomOf="@+id/autheniticateButton" />
+
     <Button
         android:id="@+id/autheniticateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginBottom="364dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginBottom="412dp"
+        android:onClick="authenticaateButtonMethod"
         android:text="אמת פרטים"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/identificationNumber"
-        android:layout_width="150dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="80dp"
-        android:text="תעודת זהות"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/autheniticateButton" />
-
-    <TextView
+    <EditText
         android:id="@+id/studentName"
-        android:layout_width="150dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="236dp"
+        android:layout_width="145dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="80dp"
+        android:ems="10"
+        android:inputType="textPersonName"
         android:text="שם הסטודנט"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/autheniticateButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
