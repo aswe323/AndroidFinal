@@ -2,9 +2,8 @@ package com.example.handesaimandroidcoursecompletionproject;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-@Entity(primaryKeys = {"userName","itemID"})
+@Entity(primaryKeys = {"userName","itemID"},tableName = "UserItemsCrossRef")
 public class UserItemsCrossRef {
     @NonNull
     public String userName;

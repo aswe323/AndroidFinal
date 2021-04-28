@@ -2,14 +2,13 @@ package com.example.handesaimandroidcoursecompletionproject;
 
 import android.app.Application;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 public class MainActivityViewModel extends AndroidViewModel {
 
     private Repository repository;
 
-    public MainActivityViewModel(@NonNull Application application) {
+    public MainActivityViewModel(Application application) {
         super(application);
         repository = Repository.getInstance(application);
     }

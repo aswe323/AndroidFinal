@@ -12,14 +12,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Item.class,  User.class, UserItemsCrossRef.class},version = 1,exportSchema = false)
-public abstract class DataBase extends RoomDatabase {
+public abstract class MyDataBase extends RoomDatabase {
 
     public abstract ItemDao ItemDao();
     public abstract UserDao UserDao();
 
 
 
-    private static volatile Database INSTANCE;
+    private static volatile MyDataBase INSTANCE;
+
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
@@ -42,18 +43,42 @@ public abstract class DataBase extends RoomDatabase {
         }
     };
 
-    static DataBase getDatabase(final Context context) {
+    static MyDataBase getDatabase(final Context context) {
         if (INSTANCE == null) {
-            synchronized (DataBase.class) {
+            synchronized (MyDataBase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = (Database) Room.databaseBuilder(context.getApplicationContext(),
-                            DataBase.class, "RoomDataBase")
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            MyDataBase.class, "RoomDataBase")
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
             }
+            //  FUCK
         }
-        return (DataBase) INSTANCE;
+        return INSTANCE;
+    }
+
+    public void insertUser(String userName, String id){
+        databaseWriteExecutor.execute(() -> {
+            try {
+                UserDao().insert(new User(userName,id,0));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return;
+    }
+    public void insertItem(String itemID, String itemName, int itemPrice){
+        databaseWriteExecutor.execute(() ->
+        {
+            try {
+                ItemDao().insert(new Item(itemID, itemName, itemPrice));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
+        return;
     }
 
 }

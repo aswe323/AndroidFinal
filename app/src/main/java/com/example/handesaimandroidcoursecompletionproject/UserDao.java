@@ -1,7 +1,6 @@
 package com.example.handesaimandroidcoursecompletionproject;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -16,14 +15,14 @@ public interface UserDao {
     @Insert
     void insert(User... userDetails);
 
-    @Query("SELECT * FROM User")
+    @Query("SELECT * FROM Users")
     LiveData<List<User>> getAll();
 
     @Update
     void update(User... Users);
 
     @Transaction
-    @Query("SELECT * FROM User")
+    @Query("SELECT * FROM Users")
     public List<UserWithItems> getPlaylistsWithSongs();
     //Delete is Redundant for the project
 

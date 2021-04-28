@@ -17,13 +17,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.mainActivityViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(MainActivityViewModel.class);
+        this.mainActivityViewModel =  new ViewModelProvider(MainActivity.this,ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(MainActivityViewModel.class);
+
 
     }
 
     public void authenticaateButtonMethod(View view){
         String id =(((EditText) view.getRootView().findViewById(R.id.stundentId)).getText().toString());
         String studentName =(((EditText) view.getRootView().findViewById(R.id.studentName)).getText().toString());
+
         Intent intent = new Intent(MainActivity.this,store.class);
         if(mainActivityViewModel.authenticate(studentName,id)) startActivity(intent);
     }

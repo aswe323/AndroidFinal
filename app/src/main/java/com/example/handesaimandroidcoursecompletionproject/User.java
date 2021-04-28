@@ -3,12 +3,10 @@ package com.example.handesaimandroidcoursecompletionproject;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.util.List;
 
-@Entity
+@Entity(tableName = "users")
 public class User {
     @PrimaryKey
     @NonNull

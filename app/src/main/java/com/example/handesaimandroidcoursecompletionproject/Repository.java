@@ -2,37 +2,44 @@ package com.example.handesaimandroidcoursecompletionproject;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.room.Database;
 
 import java.util.List;
 
-public class Repository {
+public class Repository implements LifecycleOwner {
     public UserDao userDao;
     public ItemDao itemDao;
+
     private LiveData<List<User>> userList;
+    private List<User> savedUserList;
+
     private LiveData<List<Item>> itemList;
+
     static private boolean flag = false;
     static private Repository repository;
 
     private Repository(Application application) {
         this.flag = true;
-        DataBase database = DataBase.getDatabase(application);
+        MyDataBase database = MyDataBase.getDatabase(application);
+        database.insertUser("Matan", "123456789");
+        database.insertUser("John Doe", "987654321");
+        database.insertUser("Rosa Park", "4206950053");
+        database.insertUser("leeroy Jerkins", "123456789");
+        database.insertUser("Oni-Chan", "Yamete");
+        database.insertItem("001","Milk",10);
+        database.insertItem("002","cookies",5);
+        database.insertItem("003","pasta",20);
+        database.insertItem("004","coco powder",18);
+        database.insertItem("005","pita",7);
         this.userDao = database.UserDao();
         this.itemDao = database.ItemDao();
         this.userList = userDao.getAll();
         this.itemList = itemDao.getAll();
-        userDao.insert(new User("Matan", "123456789",0));
-        userDao.insert(new User("John Doe", "987654321",0));
-        userDao.insert(new User("Rosa Park", "4206950053",0));
-        userDao.insert(new User("leeroy Jerkins", "123456789",0));
-        userDao.insert(new User("Oni-Chan", "Yamete",0));
-        itemDao.insert(new Item("001","Milk",10));
-        itemDao.insert(new Item("002","cookies",5));
-        itemDao.insert(new Item("003","pasta",20));
-        itemDao.insert(new Item("004","coco powder",18));
-        itemDao.insert(new Item("005","pita",7));
     }
 
     static public Repository getInstance(Application application){
@@ -41,13 +48,11 @@ public class Repository {
         return repository;
     }
 
-    public boolean authenticate(String userName, String id){
-        for (User user : userList.getValue() ) {
-            if(user.getUserName().equals(userName) && user.getId().equals(id))
-                return true;
-            }
+    public boolean authenticate(String userName, String id) {
+        // FIXME: 4/28/21
+
         return false;
-        }
+    }
 
     public LiveData<List<User>> getUserList() {
         return userList;
@@ -58,4 +63,9 @@ public class Repository {
     }
 
 
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() {
+        return null;
+    }
 }
