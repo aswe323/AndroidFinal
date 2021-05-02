@@ -22,6 +22,11 @@ public class User {
         this.priceTotal = priceTotal;
     }
 
+    public User(String name, String id) {
+        this.userName = name;
+        this.id = id;
+    }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }

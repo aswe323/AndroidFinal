@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
         String studentName =(((EditText) view.getRootView().findViewById(R.id.studentName)).getText().toString());
 
         Intent intent = new Intent(MainActivity.this,store.class);
-        if(mainActivityViewModel.authenticate(studentName,id)) startActivity(intent);
+        if(mainActivityViewModel.authenticate(studentName,id))
+            startActivity(intent);
     }
 
 

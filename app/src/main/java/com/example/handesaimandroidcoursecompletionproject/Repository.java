@@ -18,6 +18,7 @@ public class Repository implements LifecycleOwner {
     private LiveData<List<User>> userList;
     private List<User> savedUserList;
 
+    private MyDataBase database;
     private LiveData<List<Item>> itemList;
 
     static private boolean flag = false;
@@ -25,7 +26,7 @@ public class Repository implements LifecycleOwner {
 
     private Repository(Application application) {
         this.flag = true;
-        MyDataBase database = MyDataBase.getDatabase(application);
+        database = MyDataBase.getDatabase(application);
         database.insertUser("Matan", "123456789");
         database.insertUser("John Doe", "987654321");
         database.insertUser("Rosa Park", "4206950053");
@@ -49,9 +50,13 @@ public class Repository implements LifecycleOwner {
     }
 
     public boolean authenticate(String userName, String id) {
-        // FIXME: 4/28/21
+        ///TODO: Connect me to {@Link MyDataBase} authentication method
+        // make it thread based using the database
+        boolean[] success = database.authenticate(userName,id);
 
-        return false;
+        while(!success[0]);//the dumbest shit, I have ever written.
+
+        return success[1];
     }
 
     public LiveData<List<User>> getUserList() {

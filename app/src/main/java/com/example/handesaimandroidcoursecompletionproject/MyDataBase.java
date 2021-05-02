@@ -59,25 +59,43 @@ public abstract class MyDataBase extends RoomDatabase {
     }
 
     public void insertUser(String userName, String id){
-        databaseWriteExecutor.execute(() -> {
-            try {
-                UserDao().insert(new User(userName,id,0));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        databaseWriteExecutor.execute(() ->
+                UserDao().insert(new User(userName,id,0)));
         return;
+
     }
+/*
+                    for (UserWithItems User :
+    UserDao().getUsersWithItems()) {
+        if (User.user.getUserName().equals(name) && User.user.getId().equals(id))
+            success = true;
+    }
+*/
+
+    public boolean[] authenticate(String name, String id){
+        // TODO: 5/2/21 Authenitcation
+        final boolean[] success = new boolean[2];
+        success[0] = false;
+        success[1] = false;
+        databaseWriteExecutor.execute(
+                () -> {
+                    for (UserWithItems User :
+                            UserDao().getUsersWithItems()) {
+                        if (User.user.getUserName().equals(name) && User.user.getId().equals(id))
+                            success[0] = true;
+                            success[1] = true;
+                    }
+                    success[0] = true;
+        });
+
+
+        return success;
+
+    }
+
     public void insertItem(String itemID, String itemName, int itemPrice){
         databaseWriteExecutor.execute(() ->
-        {
-            try {
-                ItemDao().insert(new Item(itemID, itemName, itemPrice));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        });
+                ItemDao().insert(new Item(itemID, itemName, itemPrice)));
         return;
     }
 

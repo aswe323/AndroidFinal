@@ -3,6 +3,7 @@ package com.example.handesaimandroidcoursecompletionproject;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
@@ -12,8 +13,8 @@ import java.util.List;
 @Dao
 public interface UserDao {
 
-    @Insert
-    void insert(User... userDetails);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(User user);
 
     @Query("SELECT * FROM Users")
     LiveData<List<User>> getAll();
@@ -23,7 +24,7 @@ public interface UserDao {
 
     @Transaction
     @Query("SELECT * FROM Users")
-    public List<UserWithItems> getPlaylistsWithSongs();
+    public List<UserWithItems> getUsersWithItems();
     //Delete is Redundant for the project
 
 }
