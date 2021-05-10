@@ -7,7 +7,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.room.Database;
+
 
 import java.util.List;
 
@@ -15,14 +15,25 @@ public class Repository implements LifecycleOwner {
     public UserDao userDao;
     public ItemDao itemDao;
 
-    private LiveData<List<User>> userList;
-    private List<User> savedUserList;
+    private LiveData<List<UserWithItems>> userWithItemsList;
+    private LiveData<List<Item>> itemList;
 
     private MyDataBase database;
-    private LiveData<List<Item>> itemList;
 
     static private boolean flag = false;
     static private Repository repository;
+
+
+
+    private List<UserWithItems> usersWithItems;
+    final Observer<LiveData<List<UserWithItems>>> userWithItemsObserver = new Observer<LiveData<List<UserWithItems>>>() {
+
+        @Override
+        public void onChanged(LiveData<List<UserWithItems>> observed) {
+            usersWithItems = observed.getValue();
+        }
+    };
+
 
     private Repository(Application application) {
         this.flag = true;
@@ -39,8 +50,14 @@ public class Repository implements LifecycleOwner {
         database.insertItem("005","pita",7);
         this.userDao = database.UserDao();
         this.itemDao = database.ItemDao();
-        this.userList = userDao.getAll();
+        this.userWithItemsList = userDao.getUsersWithItems();
+        // FIXME: 10/05/2021 : Thread isn't done when @authenticate is being called
+        // FIXME SOLUTION FOUND: 10/05/2021 : Use observer to enable and disable authentication.
         this.itemList = itemDao.getAll();
+
+        userWithItemsList.observe(this,userWithItemsObserver);
+        // FIXME: 10/05/2021 : observer already knows it's oberving a livedata object
+        // FIXME SOLUTION FOUND: 10/05/2021 : remove the LiveData<...> from the declaration of the observer
     }
 
     static public Repository getInstance(Application application){
@@ -50,27 +67,21 @@ public class Repository implements LifecycleOwner {
     }
 
     public boolean authenticate(String userName, String id) {
-        ///TODO: Connect me to {@Link MyDataBase} authentication method
-        // make it thread based using the database
-        boolean[] success = database.authenticate(userName,id);
-
-        while(!success[0]);//the dumbest shit, I have ever written.
-
-        return success[1];
+        for (UserWithItems user :
+                usersWithItems) {
+            if(user.user.getUserName().equals(userName) && user.user.getId().equals(id))
+                return true;
+        }
+        return false;
     }
-
-    public LiveData<List<User>> getUserList() {
-        return userList;
-    }
-
-    public LiveData<List<Item>> getItemList() {
-        return itemList;
-    }
-
 
     @NonNull
     @Override
     public Lifecycle getLifecycle() {
         return null;
+    }
+
+    public List<UserWithItems> getUsersWithItems() {
+        return usersWithItems;
     }
 }

@@ -20,7 +20,6 @@ public abstract class MyDataBase extends RoomDatabase {
 
 
     private static volatile MyDataBase INSTANCE;
-
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
@@ -53,7 +52,6 @@ public abstract class MyDataBase extends RoomDatabase {
                             .build();
                 }
             }
-            //  FUCK
         }
         return INSTANCE;
     }
@@ -71,9 +69,9 @@ public abstract class MyDataBase extends RoomDatabase {
             success = true;
     }
 */
+/*
 
     public boolean[] authenticate(String name, String id){
-        // TODO: 5/2/21 Authenitcation
         final boolean[] success = new boolean[2];
         success[0] = false;
         success[1] = false;
@@ -92,6 +90,7 @@ public abstract class MyDataBase extends RoomDatabase {
         return success;
 
     }
+*/
 
     public void insertItem(String itemID, String itemName, int itemPrice){
         databaseWriteExecutor.execute(() ->
