@@ -21,11 +21,15 @@ public class MainActivityViewModel extends AndroidViewModel {
     public MainActivityViewModel(Application application) {
         super(application);
         repository = Repository.getInstance(application);
-        this.usersWithItems = repository.userDao.getUsersWithItems();
+        usersWithItems = repository.getUsersWithItems();
     }
-
-    public boolean authenticate(String user, String id){
-        return repository.authenticate(user,id);
+    public boolean authenticate(String userName, String id) {
+        for (UserWithItems user :
+                usersWithItems.getValue()) {
+            if(user.user.getUserName().equals(userName) && user.user.getId().equals(id))
+                return true;
+        }
+        return false;
     }
 
 

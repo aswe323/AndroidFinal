@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mainActivityViewModel.getUsersWithItems().observe(this,usersWithItemsObserver);
     }
 
-    public void authenticaateButtonMethod(View view){
+    public void authenticateButtonMethod(View view){
         String id =(((EditText) view.getRootView().findViewById(R.id.stundentId)).getText().toString());
         String studentName =(((EditText) view.getRootView().findViewById(R.id.studentName)).getText().toString());
 

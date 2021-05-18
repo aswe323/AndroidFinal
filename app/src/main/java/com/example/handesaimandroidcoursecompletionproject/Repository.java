@@ -16,24 +16,11 @@ public class Repository implements LifecycleOwner {
     public ItemDao itemDao;
 
     private LiveData<List<UserWithItems>> userWithItemsList;
-    private LiveData<List<Item>> itemList;
 
     private MyDataBase database;
 
     static private boolean flag = false;
     static private Repository repository;
-
-
-
-    private List<UserWithItems> usersWithItems;
-    final Observer<LiveData<List<UserWithItems>>> userWithItemsObserver = new Observer<LiveData<List<UserWithItems>>>() {
-
-        @Override
-        public void onChanged(LiveData<List<UserWithItems>> observed) {
-            usersWithItems = observed.getValue();
-        }
-    };
-
 
     private Repository(Application application) {
         this.flag = true;
@@ -48,14 +35,11 @@ public class Repository implements LifecycleOwner {
         database.insertItem("003","pasta",20);
         database.insertItem("004","coco powder",18);
         database.insertItem("005","pita",7);
-        this.userDao = database.UserDao();
-        this.itemDao = database.ItemDao();
-        this.userWithItemsList = userDao.getUsersWithItems();
+        userDao = database.UserDao();
+        itemDao = database.ItemDao();
+        userWithItemsList = userDao.getUsersWithItems();
         // FIXME: 10/05/2021 : Thread isn't done when @authenticate is being called
         // FIXME SOLUTION FOUND: 10/05/2021 : Use observer to enable and disable authentication.
-        this.itemList = itemDao.getAll();
-
-        userWithItemsList.observe(this,userWithItemsObserver);
         // FIXME: 10/05/2021 : observer already knows it's oberving a livedata object
         // FIXME SOLUTION FOUND: 10/05/2021 : remove the LiveData<...> from the declaration of the observer
     }
@@ -66,14 +50,7 @@ public class Repository implements LifecycleOwner {
         return repository;
     }
 
-    public boolean authenticate(String userName, String id) {
-        for (UserWithItems user :
-                usersWithItems) {
-            if(user.user.getUserName().equals(userName) && user.user.getId().equals(id))
-                return true;
-        }
-        return false;
-    }
+
 
     @NonNull
     @Override
@@ -81,7 +58,7 @@ public class Repository implements LifecycleOwner {
         return null;
     }
 
-    public List<UserWithItems> getUsersWithItems() {
-        return usersWithItems;
+    public LiveData<List<UserWithItems>> getUsersWithItems() {
+        return userWithItemsList;
     }
 }

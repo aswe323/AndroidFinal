@@ -24,7 +24,7 @@ public interface UserDao {
 
     @Transaction
     @Query("SELECT * FROM Users")
-    public LiveData<List<UserWithItems>> getUsersWithItems();
+    LiveData<List<UserWithItems>> getUsersWithItems();
     //Delete is Redundant for the project
 
 }

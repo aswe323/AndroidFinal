@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="168dp"
         android:layout_marginBottom="412dp"
-        android:onClick="authenticaateButtonMethod"
+        android:onClick="authenticateButtonMethod"
         android:text="אמת פרטים"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
