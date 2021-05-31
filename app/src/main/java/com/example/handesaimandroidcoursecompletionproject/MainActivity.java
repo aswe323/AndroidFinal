@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         String studentName =(((EditText) view.getRootView().findViewById(R.id.studentName)).getText().toString());
 
         Intent intent = new Intent(MainActivity.this,store.class);
+        intent.putExtra("studentName",studentName);
+        intent.putExtra("id",id);
         if(mainActivityViewModel.authenticate(studentName,id))
             startActivity(intent);
     }
