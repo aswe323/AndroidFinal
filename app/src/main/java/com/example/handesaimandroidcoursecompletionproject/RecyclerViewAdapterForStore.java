@@ -7,30 +7,34 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 public class RecyclerViewAdapterForStore extends RecyclerView.Adapter<RecyclerViewAdapterForStore.ViewHolder> {
 
-    LiveData<List<Item>> data = new LiveData<List<Item>>;
+    MutableLiveData<List<Item>> data = new MutableLiveData<List<Item>>();
 
     public void setData(List<Item> data) {
-        this.data = data;
+        this.data.setValue(data);
     }
 
     // FIXME: 31/05/2021 changes in qty of items passed as data to the adapter need to also update the Database UserWithItems table
+// FIXME SOLUTION FOUND: 01/06/2021 : Unimplamented: use the same lsit from the query, and update the DB with that list into the same field in UserWtihItems.  
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         return null;
     }
 
     public void onBindViewHolder(@NonNull RecyclerViewAdapterForStore.ViewHolder holder, int position) {
-
+        holder.subtract.setOnClickListener(v -> data.getValue().get(position));
     }
 
     public int getItemCount() {
-        return 0;
+        return data.getValue().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

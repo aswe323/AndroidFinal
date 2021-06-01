@@ -27,4 +27,7 @@ public interface UserDao {
     LiveData<List<UserWithItems>> getUsersWithItems();
     //Delete is Redundant for the project
 
+    @Update
+    void update(UserWithItems... UserWithItems);
+
 }

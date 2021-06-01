@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class store extends AppCompatActivity {
 
 
     //At this point we already know there is value in the livedata, however, this is not secured from a lifecycle perspective.
-    List<UserWithItems> usersWithItems = Repository.getInstance(getApplication()).getUsersWithItems().getValue();
+    LiveData<List<UserWithItems>> usersWithItems = Repository.getInstance(getApplication()).getUsersWithItems();
 
     List<Item> userItems;
 
@@ -26,13 +27,14 @@ public class store extends AppCompatActivity {
         Intent intent = getIntent();
 
 
-        //these are uneccesery byond this scope, hence aren't class memebers.
+        //these are unnecessary beyond this scope, hence aren't class members.
         String userName = intent.getStringExtra("userName");
         String id = intent.getStringExtra("id");
 
-        //wished there was a more concise way to do this in java, but fml who cares...
+
+        //wished there was a more concise way to do this, but fml who cares...
         for (UserWithItems user :
-                usersWithItems) {
+                usersWithItems.getValue()) {
             if (user.user.getUserName() == userName) userItems = user.shoppingList;
         }
 
