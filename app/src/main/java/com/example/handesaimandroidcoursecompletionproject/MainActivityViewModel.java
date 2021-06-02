@@ -27,10 +27,12 @@ public class MainActivityViewModel extends AndroidViewModel {
         for (UserWithItems user :
                 usersWithItems.getValue()) {
             if(user.user.getUserName().equals(userName) && user.user.getId().equals(id))
-                return true;
+                if(repository.setLoggedUser(user)) {
+                    return true;
+                }
+            return false;
         }
         return false;
     }
-
 
 }

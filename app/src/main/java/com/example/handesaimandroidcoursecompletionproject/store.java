@@ -24,23 +24,11 @@ public class store extends AppCompatActivity {
 
         setContentView(R.layout.activity_store2);
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        Intent intent = getIntent();
-
-
-        //these are unnecessary beyond this scope, hence aren't class members.
-        String userName = intent.getStringExtra("userName");
-        String id = intent.getStringExtra("id");
-
-
-        //wished there was a more concise way to do this, but fml who cares...
-        for (UserWithItems user :
-                usersWithItems.getValue()) {
-            if (user.user.getUserName() == userName) userItems = user.shoppingList;
-        }
 
 
 
 
-        recyclerView.setAdapter();
+
+//        recyclerView.setAdapter();
     }
 }
