@@ -22,7 +22,7 @@ public class RecyclerViewAdapterForStore extends RecyclerView.Adapter<RecyclerVi
     }
 
     // FIXME: 31/05/2021 changes in qty of items passed as data to the adapter need to also update the Database UserWithItems table
-// FIXME SOLUTION FOUND: 01/06/2021 : Unimplamented: use the same lsit from the query, and update the DB with that list into the same field in UserWtihItems.  
+    // FIXME SOLUTION FOUND: 01/06/2021 : Unimplamented: use the same list from the query, and update the DB with that list into the same field in UserWtihItems.
     @NonNull
     // FIXME: 10/06/2021 how do I update the DB from the adapter?
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -11,8 +11,14 @@ public class StoreViewModel extends AndroidViewModel {
     String userName;
     String id;
 
+    UserWithItems loggedUser;
 
-
+    public void setLoggedUser(String userName) {
+        for (UserWithItems userWithItems :
+                repository.getUsersWithItems().getValue()) {
+            if (userWithItems.user.getUserName().equals(userName)) loggedUser = userWithItems;
+        }
+    }
 
     public StoreViewModel(@NonNull Application application) {
         super(application);
